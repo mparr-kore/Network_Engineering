@@ -1,0 +1,3 @@
+no ip domain-lookup
+ip domain-name [domain FQDN]
+crypto key param rsa label [FQDN] modulus 2048 

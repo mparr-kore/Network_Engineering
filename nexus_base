@@ -1,0 +1,1780 @@
+no ip domain-lookup
+ip domain-name [domain FQDN]
+crypto key param rsa label [label] modulus 2048 
+
+ip access-list DEFAULT_ROUTE
+  10 permit ip any any 
+ip access-list DEFAULT_ROUTE_PRODFW1_ACL
+  10 permit ip 192.168.38.22/32 192.168.0.0/16 
+ip access-list DEFAULT_ROUTE_PRODFW_ACL
+  10 permit ip 192.168.38.22/32 any 
+ip access-list IPSEC-CUSTOMER-1
+  10 permit ip 10.115.2.190/32 any 
+ip access-list Internet-App_Control_ACL
+  10 permit icmp any 162.244.251.16/29 echo 
+  20 permit ip 162.244.251.0/29 any 
+  30 permit ip 162.244.251.16/29 any 
+  100 permit icmp any 74.113.20.0/29 echo 
+  110 permit ip any 74.113.20.2/32 
+  120 deny ip any 74.113.20.0/29 
+  130 permit ip any 74.113.20.0/24 
+  140 permit icmp any 162.244.251.32/29 echo 
+  150 permit ip any 162.244.251.37/32 
+  160 permit ip any 162.244.251.100/32 
+  170 permit ip 162.244.251.32/29 any 
+  180 permit ip 162.244.251.100/32 any 
+  190 permit ip any 173.227.146.0/24 
+  200 permit ip any 162.244.251.120/29 
+  210 permit ip any 162.244.251.128/29 
+  1000 deny ip any any 
+ip access-list Internet_Control_ACL
+  10 permit icmp any 162.244.250.48/29 echo 
+  30 permit ip 162.244.250.48/29 any 
+  40 deny ip any 162.244.250.1/32 
+  50 deny ip any 162.244.250.33/32 
+  60 permit ip any 162.244.250.0/28 
+  70 permit ip any 162.244.250.32/28 
+  80 permit ip any 162.244.250.16/28 
+  90 permit ip any 162.244.250.113/32 
+  100 permit ip any 162.244.250.114/32 
+  105 permit ip any 162.244.250.115/32 
+  110 permit ip any 162.244.250.122/32 
+  120 permit ip any 162.244.250.65/32 
+  130 permit ip any 162.244.250.66/32 
+  140 permit ip any 162.244.250.192/26 log 
+  150 permit ip any 199.167.140.0/22 
+  160 permit ip any 199.167.140.0/23 
+  170 permit ip any 162.244.248.0/23 
+  180 permit ip any 174.47.40.106/32 
+  200 permit ip any 162.244.250.62/32 
+  210 deny ip any 174.47.40.25/32 
+  220 permit ip any 174.47.40.0/24 
+  230 permit ip any 162.244.250.128/26 
+  240 permit ip any 162.244.250.115/32 
+  1000 deny ip any any 
+ip access-list PBR-DMVPN-CUST1
+  10 remark TEXTNOW
+  20 permit ip 10.8.96.0 0.0.15.255 any 
+ip access-list PBR-DMVPN-CUST1-DNS
+  10 permit ip 10.8.96.0 0.0.15.255 174.47.40.106/32 
+  20 permit ip 10.8.96.0 0.0.15.255 174.47.20.106/32 
+ip access-list SSH-ACCESS
+  10 permit tcp 172.16.1.0 0.0.254.255 172.16.0.60/32 
+  20 permit tcp 10.0.0.0 0.0.0.255 172.16.0.60/32 
+  30 permit tcp 216.68.132.3/24 172.16.0.60/32 
+  40 permit tcp 172.20.254.0/24 172.16.0.60/32 
+  50 permit tcp 74.126.91.188/32 any eq 22 
+  60 permit tcp 74.219.247.240/28 any eq 22 
+  70 permit tcp 74.126.88.0/27 any eq 22 
+  80 permit tcp 74.3.157.1/28 any eq 22 
+  90 permit tcp 4.15.89.38/30 any eq 22 
+  100 permit tcp 4.15.216.198/30 any eq 22 
+  110 permit tcp 96.91.92.25/29 any eq 22 
+  120 permit tcp 4.16.49.150/30 any eq 22 
+  130 permit tcp 208.124.170.83/28 any eq 22 
+  140 permit tcp 66.193.53.206/30 any eq 22 
+  150 permit tcp 38.122.46.202/28 any eq 22 
+ip access-list VF_RADIUS_ACL
+  10 permit ip 192.168.38.25/32 195.232.191.0/24 
+ip access-list Winternet_Control_ACL
+  10 permit ip any 72.250.80.0/20 
+  20 permit ip any 72.250.96.0/20 
+  30 permit ip any 72.250.112.0/20 
+  100 permit ip any 207.189.176.64/27 
+  110 permit ip any 207.189.176.96/27 
+  120 permit ip any 207.189.176.128/26 
+  130 permit ip any 207.189.176.192/26 
+  900 deny ip any 207.189.176.2/32 
+  905 deny ip any 207.189.176.3/32 
+  910 deny ip any 207.189.176.4/32 
+  915 deny ip any 207.189.176.5/32 
+  920 deny ip any 207.189.176.34/32 
+  925 deny ip any 207.189.176.35/32 
+  930 deny ip any 207.189.176.36/32 
+  935 deny ip any 207.189.176.37/32 
+  940 deny ip any 207.189.176.18/32 
+  945 deny ip any 207.189.176.19/32 
+  950 deny ip any 207.189.176.20/32 
+  955 deny ip any 207.189.176.21/32 
+  960 deny ip any 207.189.176.50/32 
+  965 deny ip any 207.189.176.51/32 
+  970 deny ip any 207.189.176.52/32 
+  975 deny ip any 207.189.176.53/32 
+  1000 deny ip any any 
+ip access-list inbound_route-map
+  10 permit ip 10.160.0.0/18 10.0.0.0/8 
+  20 permit ip 10.160.0.0/18 192.168.0.0/16 
+  30 permit ip 10.160.0.0/18 172.16.0.0/12 
+  45 permit ip 10.115.128.0/18 10.0.0.0/8 
+  55 permit ip 10.115.128.0/18 192.168.0.0/16 
+  65 permit ip 10.115.128.0/18 172.16.0.0/12 
+  70 permit ip 10.211.0.0/18 10.0.0.0/8 
+  80 permit ip 10.211.0.0/18 192.168.0.0/16 
+  90 permit ip 10.211.0.0/18 172.16.0.0/12 
+  100 permit ip 10.16.0.0/16 10.0.0.0/8 
+  110 permit ip 10.16.0.0/16 192.168.0.0/16 
+  120 permit ip 10.16.0.0/16 172.16.0.0/12 
+  130 permit ip 10.211.64.0/18 10.0.0.0/8 
+  140 permit ip 10.211.64.0/18 192.168.0.0/16 
+  150 permit ip 10.211.64.0/18 172.16.0.0/12 
+  160 permit ip 10.112.0.0/23 10.0.0.0/8 
+  170 permit ip 10.112.0.0/23 192.168.0.0/16 
+  180 permit ip 10.112.0.0/23 172.16.0.0/12 
+  190 permit ip 10.112.2.0/23 10.0.0.0/8 
+  200 permit ip 10.112.2.0/23 192.168.0.0/16 
+  210 permit ip 10.112.2.0/23 172.16.0.0/12 
+ip access-list inbound_route-map2
+  10 permit ip 10.224.0.0/16 any 
+ip access-list vty-acl-in
+  10 permit tcp 10.0.0.0/16 any eq 22 
+  20 permit tcp 172.16.0.0/23 any eq 22 
+  30 permit tcp 74.126.91.188/32 any eq 22 
+  40 permit tcp 74.219.247.240/28 any eq 22 
+  50 permit tcp 216.68.132.3/24 any eq 22 
+  55 permit tcp 172.20.254.0/24 any eq 22 
+  60 permit tcp 74.126.88.0/27 any eq 22 
+  70 permit tcp 74.3.157.1/28 any eq 22 
+  80 permit tcp 4.15.89.38/30 any eq 22 
+  90 permit tcp 4.15.216.198/30 any eq 22 
+  100 permit tcp 96.91.92.25/29 any eq 22 
+  110 permit tcp 4.16.49.150/30 any eq 22 
+  120 permit tcp 208.124.170.83/28 any eq 22 
+  130 permit tcp 66.193.53.206/30 any eq 22 
+  140 permit tcp 208.124.170.83/28 any eq 22 
+  141 permit tcp 104.231.46.48/32 any eq 22 
+  150 permit tcp 38.122.46.202/28 any eq 22 
+
+
+copp profile strict
+snmp-server source-interface trap mgmt0
+snmp-server user admin network-admin auth md5 0x526fd09c50bc7ab305c33c0f6d20670c priv 0x526fd09c50bc7ab305c33c0f6d20670c localizedkey
+snmp-server user swadmin priv-15 auth md5 0x3573dfb35752a8430a2729fd84e2fb90 priv 0x3573dfb35752a8430a2729fd84e2fb90 localizedkey
+snmp-server host 10.0.0.29 traps version 2c tmo66tmo
+rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+snmp-server enable traps config ccmCLIRunningConfigChanged
+snmp-server enable traps snmp authentication
+snmp-server enable traps link cisco-xcvr-mon-status-chg
+snmp-server enable traps vtp notifs
+snmp-server enable traps vtp vlancreate
+snmp-server enable traps vtp vlandelete
+snmp-server enable traps bridge newroot
+snmp-server enable traps bridge topologychange
+snmp-server enable traps stpx inconsistency
+snmp-server enable traps stpx root-inconsistency
+snmp-server enable traps stpx loop-inconsistency
+snmp-server community 4b798xm432by6l2m8 group network-operator
+snmp-server community tmo66tmo group network-operator
+snmp-server community tmo66tmo use-acl SNMPMGMT
+vlan 1,6,10-11,15-16,99-102,105-106,109,119,172,200-204,207-209,250-253,255,300-301,303-312,314,316,318-319,325,350,353,355,401,404-406,410-411,500-503,509,550-551,560-564,570-574,600,605,607,611-614,650,655,657,660,670,755,757,850-851,899-905,910,951-953,955,957,959-962,994-995,997-999
+vlan 6
+  name RACOAPP
+vlan 10
+  name OSPF100_ar0
+vlan 11
+  name OSPF100_ar1
+vlan 15
+  name OSPF50_ar3
+vlan 16
+  name XO-NPHASE
+vlan 99
+  name Temporary_HostFW_Vlan
+vlan 100
+  name TW_SNLAN_Internal
+vlan 105
+  name WAPN_EPL_LINK
+vlan 106
+  name TMOHUB_EPL_LINK
+vlan 109
+  name PROD
+vlan 119
+  name KORE-MONITOR
+vlan 172
+  name OOB
+vlan 200
+  name DC-Finance
+vlan 201
+  name DC-Corp
+vlan 202
+  name DC-NETMGMT
+vlan 203
+  name DC-PROD
+vlan 204
+  name DC-SYSMGMT
+vlan 207
+  name RADIUS1
+vlan 208
+  name RADIUS
+vlan 209
+  name PROD-2
+
+vlan 600
+  name SERVICE_ROUTERS
+vlan 605
+  name WAPN1
+vlan 607
+  name TMOHUB_APN1
+vlan 611
+  name WAPN_CORE1
+vlan 612
+  name WAPN_CORE2
+vlan 613
+  name TMO_CORE1
+vlan 614
+  name TMO_CORE2
+vlan 650
+  name SERVICE_ROUTERS_INTERNET
+vlan 655
+  name WINTERNET_WAPN_CORE1
+vlan 657
+  name WINTERNET_CORE1
+
+vlan 670
+  name INTERNET_CORE1
+vlan 755
+  name WINTERNET_TMOHUB_CORE1
+vlan 757
+  name WINTERNET_CORE2
+
+no spanning-tree bridge assurance
+spanning-tree vlan 100,105-106,109,119,172,200-204,207-209,250-253,300,303-304,308,310,312,314,316,318-319,401,404-406,410-411,500-503,509,550-551,560-564,570-574,850-851,899-903,994,998-999 priority 4096
+ip prefix-list BGP-APN-STATIC-REDIS seq 10 permit 10.0.1.33/32 
+ip prefix-list BGP-APN-STATIC-REDIS seq 20 permit 10.0.6.0/24 
+ip prefix-list BGP-APN-STATIC-REDIS seq 30 permit 10.2.10.0/24 
+ip prefix-list BGP-APN-STATIC-REDIS seq 40 permit 10.32.0.0/16 
+ip prefix-list BGP-APN-STATIC-REDIS seq 50 permit 10.33.0.0/16 
+ip prefix-list BGP-APN-STATIC-REDIS seq 60 permit 10.34.0.0/16 
+ip prefix-list BGP-APN-STATIC-REDIS seq 70 permit 10.35.0.0/16 
+ip prefix-list BGP-APN-STATIC-REDIS seq 80 permit 10.50.0.0/16 
+ip prefix-list BGP-APN-STATIC-REDIS seq 90 permit 64.22.71.107/32 
+ip prefix-list BGP-APN-STATIC-REDIS seq 100 permit 128.136.227.27/32 
+ip prefix-list BGP-APN-STATIC-REDIS seq 110 permit 128.136.227.28/32 
+ip prefix-list BGP-APN-STATIC-REDIS seq 120 permit 204.16.68.230/32 
+ip prefix-list BGP-APN-STATIC-REDIS seq 130 permit 204.16.69.230/32 
+ip prefix-list BGP-APN-STATIC-REDIS seq 1000 deny 0.0.0.0/0 le 32 
+ip prefix-list BGP-NPHASE-STATIC-REDIS seq 10 permit 0.0.0.0/0 le 32 
+ip prefix-list BGP-TMOHUB-STATIC-REDIS seq 1000 deny 0.0.0.0/0 le 32 
+ip prefix-list BGP-WAPN-STATIC-REDIS seq 1000 deny 0.0.0.0/0 le 32 
+ip prefix-list OSPF100-STATIC-MAP seq 5 permit 172.26.0.0/24 
+ip prefix-list OSPF100-STATIC-MAP seq 10 permit 172.21.0.0/24 
+ip prefix-list OSPF100-STATIC-MAP seq 1000 deny 0.0.0.0/0 le 32 
+ip prefix-list OSPF101-STATIC-MAP seq 5 permit 173.227.146.160/27 
+ip prefix-list OSPF101-STATIC-MAP seq 10 permit 173.227.146.128/27 
+ip prefix-list OSPF101-STATIC-MAP seq 15 permit 10.200.255.16/29 
+ip prefix-list OSPF101-STATIC-MAP seq 20 permit 10.200.255.24/29 
+ip prefix-list OSPF101-STATIC-MAP seq 25 permit 10.200.255.32/29 
+ip prefix-list OSPF101-STATIC-MAP seq 30 permit 10.200.255.40/29 
+ip prefix-list OSPF101-STATIC-MAP seq 35 permit 10.200.255.48/29 
+ip prefix-list OSPF101-STATIC-MAP seq 40 permit 10.200.255.64/29 
+ip prefix-list OSPF101-STATIC-MAP seq 45 permit 10.200.255.72/29 
+ip prefix-list OSPF101-STATIC-MAP seq 50 permit 10.184.80.145/32 
+ip prefix-list OSPF101-STATIC-MAP seq 55 permit 10.176.80.241/32 
+ip prefix-list OSPF101-STATIC-MAP seq 60 permit 66.174.77.192/26 
+ip prefix-list OSPF101-STATIC-MAP seq 65 permit 66.174.77.198/32 
+ip prefix-list OSPF101-STATIC-MAP seq 70 permit 66.174.77.199/32 
+ip prefix-list OSPF101-STATIC-MAP seq 75 permit 66.174.77.219/32 
+ip prefix-list OSPF101-STATIC-MAP seq 80 permit 66.174.77.220/32 
+ip prefix-list OSPF101-STATIC-MAP seq 85 permit 66.174.77.231/32 
+ip prefix-list OSPF101-STATIC-MAP seq 90 permit 66.174.77.232/32 
+ip prefix-list OSPF101-STATIC-MAP seq 95 permit 66.174.77.252/32 
+ip prefix-list OSPF101-STATIC-MAP seq 100 permit 66.174.77.253/32 
+ip prefix-list OSPF101-STATIC-MAP seq 105 permit 66.174.79.129/32 
+ip prefix-list OSPF101-STATIC-MAP seq 110 permit 66.174.79.131/32 
+ip prefix-list OSPF101-STATIC-MAP seq 115 permit 66.174.86.192/26 
+ip prefix-list OSPF101-STATIC-MAP seq 120 permit 66.174.86.198/32 
+ip prefix-list OSPF101-STATIC-MAP seq 125 permit 66.174.86.199/32 
+ip prefix-list OSPF101-STATIC-MAP seq 130 permit 66.174.86.219/32 
+ip prefix-list OSPF101-STATIC-MAP seq 135 permit 66.174.86.220/32 
+ip prefix-list OSPF101-STATIC-MAP seq 140 permit 66.174.86.231/32 
+ip prefix-list OSPF101-STATIC-MAP seq 145 permit 66.174.86.232/32 
+ip prefix-list OSPF101-STATIC-MAP seq 150 permit 66.174.86.252/32 
+ip prefix-list OSPF101-STATIC-MAP seq 155 permit 66.174.86.253/32 
+ip prefix-list OSPF101-STATIC-MAP seq 160 permit 66.174.91.192/26 
+ip prefix-list OSPF101-STATIC-MAP seq 165 permit 66.174.91.198/32 
+ip prefix-list OSPF101-STATIC-MAP seq 170 permit 66.174.91.199/32 
+ip prefix-list OSPF101-STATIC-MAP seq 175 permit 66.174.91.219/32 
+ip prefix-list OSPF101-STATIC-MAP seq 180 permit 66.174.91.220/32 
+ip prefix-list OSPF101-STATIC-MAP seq 185 permit 66.174.91.231/32 
+ip prefix-list OSPF101-STATIC-MAP seq 190 permit 66.174.91.232/32 
+ip prefix-list OSPF101-STATIC-MAP seq 195 permit 66.174.91.252/32 
+ip prefix-list OSPF101-STATIC-MAP seq 200 permit 66.174.91.253/32 
+ip prefix-list OSPF101-STATIC-MAP seq 205 permit 69.78.29.200/32 
+ip prefix-list OSPF101-STATIC-MAP seq 210 permit 69.78.29.205/32 
+ip prefix-list OSPF101-STATIC-MAP seq 215 permit 69.78.95.197/32 
+ip prefix-list OSPF101-STATIC-MAP seq 220 permit 69.78.233.64/26 
+ip prefix-list OSPF101-STATIC-MAP seq 225 permit 69.78.235.45/32 
+ip prefix-list OSPF101-STATIC-MAP seq 230 permit 204.16.68.230/32 
+ip prefix-list OSPF101-STATIC-MAP seq 235 permit 204.16.69.230/32 
+ip prefix-list OSPF101-STATIC-MAP seq 239 permit 172.20.254.0/23 
+ip prefix-list OSPF101-STATIC-MAP seq 240 permit 192.168.0.0/24 
+ip prefix-list OSPF101-STATIC-MAP seq 245 permit 192.168.2.0/24 
+ip prefix-list OSPF101-STATIC-MAP seq 250 permit 192.168.8.0/23 
+ip prefix-list OSPF101-STATIC-MAP seq 255 permit 192.168.10.0/24 
+ip prefix-list OSPF101-STATIC-MAP seq 260 permit 192.168.11.0/24 
+ip prefix-list OSPF101-STATIC-MAP seq 265 permit 192.168.12.0/22 
+ip prefix-list OSPF101-STATIC-MAP seq 270 permit 192.168.16.0/22 
+ip prefix-list OSPF101-STATIC-MAP seq 275 permit 192.168.24.0/22 
+ip prefix-list OSPF101-STATIC-MAP seq 280 permit 192.168.132.0/23 
+ip prefix-list OSPF101-STATIC-MAP seq 285 permit 192.168.46.0/24 
+ip prefix-list OSPF101-STATIC-MAP seq 290 permit 192.168.1.0/24 
+ip prefix-list OSPF101-STATIC-MAP seq 295 permit 192.168.28.0/22 
+ip prefix-list OSPF101-STATIC-MAP seq 300 permit 66.174.174.76/30 
+ip prefix-list OSPF101-STATIC-MAP seq 310 permit 69.78.1.138/32 
+ip prefix-list OSPF101-STATIC-MAP seq 320 permit 69.78.1.139/32 
+ip prefix-list OSPF101-STATIC-MAP seq 350 permit 69.78.82.11/32 
+ip prefix-list OSPF101-STATIC-MAP seq 360 permit 69.78.82.14/32 
+ip prefix-list OSPF101-STATIC-MAP seq 370 permit 69.78.82.17/32 
+ip prefix-list OSPF101-STATIC-MAP seq 390 permit 69.78.95.203/32 
+ip prefix-list OSPF101-STATIC-MAP seq 400 permit 69.78.96.80/32 
+ip prefix-list OSPF101-STATIC-MAP seq 410 permit 69.78.96.81/32 
+ip prefix-list OSPF101-STATIC-MAP seq 420 permit 69.78.145.11/32 
+ip prefix-list OSPF101-STATIC-MAP seq 430 permit 69.78.145.14/32 
+ip prefix-list OSPF101-STATIC-MAP seq 440 permit 69.78.145.17/32 
+ip prefix-list OSPF101-STATIC-MAP seq 450 permit 69.78.211.80/32 
+ip prefix-list OSPF101-STATIC-MAP seq 460 permit 69.78.211.81/32 
+ip prefix-list OSPF101-STATIC-MAP seq 470 permit 69.78.233.64/32 
+ip prefix-list OSPF101-STATIC-MAP seq 480 permit 69.78.235.39/32 
+ip prefix-list OSPF101-STATIC-MAP seq 490 permit 69.78.235.44/32 
+ip prefix-list OSPF101-STATIC-MAP seq 510 permit 66.174.77.13/32 
+ip prefix-list OSPF101-STATIC-MAP seq 520 permit 66.174.86.13/32 
+ip prefix-list OSPF101-STATIC-MAP seq 530 permit 66.174.91.13/32 
+ip prefix-list OSPF101-STATIC-MAP seq 540 permit 69.78.101.116/32 
+ip prefix-list OSPF101-STATIC-MAP seq 550 permit 66.78.232.252/32 
+ip prefix-list OSPF101-STATIC-MAP seq 560 permit 10.0.6.0/24 
+ip prefix-list OSPF101-STATIC-MAP seq 570 permit 69.78.232.252/32 
+ip prefix-list OSPF101-STATIC-MAP seq 580 permit 192.168.48.0/23 
+ip prefix-list OSPF101-STATIC-MAP seq 1000 deny 0.0.0.0/0 le 32 
+ip prefix-list OSPF105-STATIC-MAP seq 10 permit 172.31.251.0/26 
+ip prefix-list OSPF105-STATIC-MAP seq 20 permit 172.31.251.64/26 
+ip prefix-list OSPF105-STATIC-MAP seq 30 permit 172.31.251.128/26 
+ip prefix-list OSPF105-STATIC-MAP seq 40 permit 172.31.251.192/26 
+ip prefix-list OSPF105-STATIC-MAP seq 1000 deny 0.0.0.0/0 le 32 
+ip prefix-list OSPF106-STATIC-MAP seq 1000 deny 0.0.0.0/0 le 32 
+ip prefix-list OSPF50-STATIC-MAP seq 1000 deny 0.0.0.0/0 le 32 
+ip prefix-list OSPF51-STATIC-MAP seq 5 permit 162.244.251.100/32 
+ip prefix-list OSPF51-STATIC-MAP seq 1000 deny 0.0.0.0/0 le 32 
+ip prefix-list OSPF55-STATIC-MAP seq 10 permit 207.189.176.193/32 
+ip prefix-list OSPF55-STATIC-MAP seq 20 permit 207.189.176.194/32 
+ip prefix-list OSPF55-STATIC-MAP seq 30 permit 207.189.176.195/32 
+ip prefix-list OSPF55-STATIC-MAP seq 40 permit 207.189.176.196/32 
+ip prefix-list OSPF55-STATIC-MAP seq 1000 deny 0.0.0.0/0 le 32 
+route-map BGP-APN-STATIC-REDIS permit 10
+  match ip address prefix-list BGP-APN-STATIC-REDIS 
+route-map BGP-NPHASE-STATIC-REDIS permit 10
+  match ip address prefix-list BGP-NPHASE-STATIC-REDIS 
+route-map BGP-TMOHUB-STATIC-REDIS permit 10
+  match ip address prefix-list BGP-TMOHUB-STATIC-REDIS 
+route-map BGP-WAPN-STATIC-REDIS permit 10
+  match ip address prefix-list BGP-WAPN-STATIC-REDIS 
+route-map DEFAULT_ROUTE_PRODFW_MAP permit 5
+  match ip address DEFAULT_ROUTE_PRODFW1_ACL 
+route-map DEFAULT_ROUTE_PRODFW_MAP permit 10
+  match ip address DEFAULT_ROUTE_PRODFW_ACL 
+  set ip next-hop 192.168.7.132 
+route-map DEF_INFO_ORIG_METRIC permit 10
+  match ip address DEFAULT_ROUTE 
+  set metric 10 
+route-map MAP_REDIS_STATIC permit 10
+  match ip address prefix-list LIST_REDIS_STATIC 
+route-map OSPF100-STATIC-REDIS permit 10
+  match ip address prefix-list OSPF100-STATIC-MAP 
+route-map OSPF101-STATIC-REDIS permit 10
+  match ip address prefix-list OSPF101-STATIC-MAP 
+route-map OSPF105-STATIC-REDIS permit 10
+  match ip address prefix-list OSPF105-STATIC-MAP 
+route-map OSPF106-STATIC-REDIS permit 10
+  match ip address prefix-list OSPF106-STATIC-MAP 
+route-map OSPF50-STATIC-REDIS permit 10
+  match ip address prefix-list OSPF50-STATIC-MAP 
+route-map OSPF51-STATIC-REDIS permit 10
+  match ip address prefix-list OSPF51-STATIC-MAP 
+route-map OSPF55-STATIC-REDIS permit 10
+  match ip address prefix-list OSPF55-STATIC-MAP 
+route-map customer_route-maps permit 10
+  description WRX - route all private ranges
+  match ip address inbound_route-map 
+  set ip next-hop 192.168.196.5 
+route-map customer_route-maps deny 29
+  match ip address PBR-DMVPN-CUST1-DNS 
+route-map customer_route-maps permit 30
+  description PBR Customer
+  match ip address PBR-DMVPN-CUST1 
+  set ip next-hop 172.16.6.208 
+route-map customer_route-maps permit 40
+  description PBR Customers
+  match ip address IPSEC-CUSTOMER-1 
+  set ip next-hop 172.18.40.160 
+
+vrf context TMOHUB
+vrf context WAPN
+vrf context WAPP
+vrf context WINTERNET
+  ip route 207.189.176.193/32 207.189.176.244
+  ip route 207.189.176.194/32 207.189.176.244
+  ip route 207.189.176.195/32 207.189.176.244
+  ip route 207.189.176.196/32 207.189.176.244
+vrf context management
+  ip route 0.0.0.0/0 172.16.0.1
+  ip route 10.0.0.0/23 172.16.0.10
+  ip route 172.16.0.0/23 172.16.0.10
+
+interface Vlan1
+  no ip redirects
+  no ipv6 redirects
+interface Vlan6
+  description RACOAPP CIN
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 10.0.6.252/24
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 6 
+    preempt 
+    ip 10.0.6.254
+interface Vlan10
+  description CONNECTION TO CIN-CORE-2
+  no shutdown
+  vrf member APN
+  no ip redirects
+  ip address 192.168.16.17/30
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 20
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 100 area 0.0.0.0
+  ip policy route-map customer_route-maps
+interface Vlan11
+  description CONNECTION TO CIN-CORE-2
+  no shutdown
+  vrf member APN
+  no ip redirects
+  ip address 192.168.16.21/30
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 5
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip ospf mtu-ignore
+  ip router ospf 100 area 0.0.0.3
+  ip policy route-map customer_route-maps
+interface Vlan12
+  no shutdown
+  ip ospf mtu-ignore
+interface Vlan15
+  description CONNECTION TO CIN-CORE-2
+  no shutdown
+  vrf member INTERNET
+  no ip redirects
+  ip address 162.244.250.57/30
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 5
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 50 area 0.0.0.30
+interface Vlan99
+  description Temporary HostFW Vlan
+  no shutdown
+  vrf member INTERNET-APP
+  no ip redirects
+  ip address 74.113.20.1/29
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 50
+  ip router ospf 51 area 0.0.0.0
+interface Vlan100
+  description TW-SNLAN
+  no shutdown
+  vrf member APN
+  no ip redirects
+  ip address 192.168.16.133/25
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip ospf mtu-ignore
+  ip router ospf 100 area 0.0.0.0
+  ip policy route-map customer_route-maps
+interface Vlan101
+  description TW-SNLAN
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.7.9/29
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 101 area 0.0.0.0
+interface Vlan102
+  no shutdown
+  ip address 74.126.88.27/27
+interface Vlan105
+  description APN Internet IP on CIN.CORE.1 for WAPN
+  no shutdown
+  vrf member WAPN
+  ip address 172.31.254.1/28
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 105 area 0.0.0.0
+  hsrp version 2
+  hsrp 105 
+    preempt 
+    ip 172.31.254.14
+interface Vlan106
+  description APN Internet IP on CIN.CORE.1 for WAPN
+  no shutdown
+  vrf member TMOHUB
+  ip address 172.31.252.1/28
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 106 area 0.0.0.0
+  hsrp version 2
+  hsrp 106 
+    preempt 
+    ip 172.31.252.14
+interface Vlan109
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.38.62/27
+  no ipv6 redirects
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 109 
+    preempt 
+    ip 192.168.38.33
+interface Vlan172
+  no shutdown
+  ip address 172.16.2.3/29
+interface Vlan200
+  description DC-Finance
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.5.11/26
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 20
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 50
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 200 
+    preempt 
+    ip 192.168.5.1
+interface Vlan201
+  description DC-Corp
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.5.116/26
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 20
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 50
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 201 
+    preempt 
+    ip 192.168.5.65
+interface Vlan202
+  description DC-NETMGMT
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.5.147/27
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 20
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 50
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 202 
+    preempt 
+    ip 192.168.5.129
+interface Vlan203
+  description DC-PROD
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.5.250/26
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 20
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 50
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 203 
+    preempt 
+    ip 192.168.5.193
+interface Vlan204
+  description DC-SYSMGMT
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.5.181/27
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 20
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 50
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 204 
+    preempt 
+    ip 192.168.5.161
+interface Vlan207
+  description RADIUS1
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.6.3/27
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 207 
+    preempt 
+    priority 80
+    ip 192.168.6.1
+interface Vlan208
+  description RADIUS
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.38.3/27
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 50
+  ip router ospf 101 area 0.0.0.0
+  ip policy route-map DEFAULT_ROUTE_PRODFW_MAP
+  hsrp version 2
+  hsrp 208 
+    preempt 
+    ip 192.168.38.1
+interface Vlan255
+  description RACO ROUTED VLAN SPAN
+  no shutdown
+  ip address 10.0.255.2/28
+  hsrp 255 
+    priority 10
+    ip 10.0.255.1
+interface Vlan300
+  description TW-SNLAN
+  no shutdown
+  vrf member INTERNET-APP
+  no ip redirects
+  ip address 162.244.251.2/29
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 51 area 0.0.0.0
+interface Vlan301
+  description F5 Internet Connectivity
+  no shutdown
+  vrf member F5-INTERNET
+  no ip redirects
+  ip address 74.113.21.1/29
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 52 area 0.0.0.0
+interface Vlan303
+  description CustFW_Outside
+  no shutdown
+  vrf member INTERNET-APP
+  no ip redirects
+  ip address 162.244.251.33/29
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 20
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 50
+  ip router ospf 51 area 0.0.0.0
+interface Vlan307
+  description HostFW_Inside_VRF_APP
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.7.146/28
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 20
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 50
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 307 
+    preempt 
+    ip 192.168.7.145
+interface Vlan309
+  description CustFW_Inside_VRF_APP
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.7.162/28
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 50
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 309 
+    preempt 
+    ip 192.168.7.161
+interface Vlan310
+  description Prod FW Inside
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.7.130/29
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 310 
+    preempt 
+    ip 192.168.7.129
+interface Vlan311
+  description HostFW_Inside_VRF_APN
+  no shutdown
+  vrf member APN
+  no ip redirects
+  ip address 192.168.16.34/28
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 50
+  ip router ospf 100 area 0.0.0.0
+  ip policy route-map customer_route-maps
+  hsrp version 2
+  hsrp 311 
+    preempt 
+    ip 192.168.16.33
+interface Vlan312
+  no shutdown
+  vrf member APP
+  ip address 10.200.255.13/29
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 312 
+    preempt 
+    ip 10.200.255.9
+interface Vlan316
+  description MYSQLHA
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.6.69/27
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 20
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 50
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 316 
+    preempt 
+    ip 192.168.6.65
+interface Vlan350
+  description Link To Fortigate
+  no shutdown
+  ip access-group Internet-App_Control_ACL in
+  vrf member INTERNET-APP
+  no ip redirects
+  ip address 162.244.251.17/29
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 2
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 51 area 0.0.0.0
+interface Vlan353
+  description Link To InterVRF Router
+  no shutdown
+  vrf member INTERNET-APP
+  no ip redirects
+  ip address 162.244.251.9/30
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 51 area 0.0.0.0
+interface Vlan355
+  description Link To F5 VRF F5-INTERNE
+  no shutdown
+  vrf member F5-INTERNET
+  ip address 74.113.21.9/29
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 52 area 0.0.0.50
+interface Vlan401
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.36.123/26
+  no ipv6 redirects
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 401 
+    preempt 
+    ip 192.168.36.65
+interface Vlan404
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.36.130/27
+  no ipv6 redirects
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 404 
+    preempt 
+    ip 192.168.36.129
+interface Vlan405
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.36.187/27
+  no ipv6 redirects
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 405 
+    preempt 
+    ip 192.168.36.161
+interface Vlan410
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.36.59/26
+  no ipv6 redirects
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 410 
+    preempt 
+    ip 192.168.36.1
+interface Vlan501
+  description flex_esx_mgmt
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.37.3/26
+  no ipv6 redirects
+  ip router ospf 101 area 0.0.0.0
+  hsrp version 2
+  hsrp 501 
+    preempt 
+    ip 192.168.37.1
+interface Vlan550
+  description DEV Net Gateway
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 172.30.100.1/24
+  ip router ospf 101 area 0.0.0.0
+interface Vlan551
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 172.30.101.1/24
+  ip router ospf 101 area 0.0.0.0
+interface Vlan560
+  description KSG Source Control
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 172.30.120.1/28
+  ip router ospf 101 area 0.0.0.0
+interface Vlan561
+  description KSG-DEV KORE Telematics
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 172.30.120.17/28
+  ip router ospf 101 area 0.0.0.0
+interface Vlan562
+  description KSG-DEV Belgacom
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 172.30.120.33/28
+  ip router ospf 101 area 0.0.0.0
+interface Vlan563
+  description KSG-DEV Starhub
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 172.30.120.49/28
+  ip router ospf 101 area 0.0.0.0
+interface Vlan564
+  description KSG-DEV QS-PM
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 172.30.120.65/28
+  ip router ospf 101 area 0.0.0.0
+interface Vlan570
+  description INT Source Control
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 172.30.121.1/28
+  ip router ospf 101 area 0.0.0.0
+interface Vlan571
+  description INT Telematics DEV
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 172.30.121.17/28
+  ip router ospf 101 area 0.0.0.0
+interface Vlan572
+  description Belgacom INT
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 172.30.121.33/28
+  ip router ospf 101 area 0.0.0.0
+interface Vlan573
+  description Starhub INT
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 172.30.121.49/28
+  ip router ospf 101 area 0.0.0.0
+interface Vlan574
+  description INT QSPM
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 172.30.121.65/28
+  ip router ospf 101 area 0.0.0.0
+interface Vlan600
+  description SERVICE ROUTER VLAN
+  no shutdown
+  vrf member APN
+  no ip redirects
+  ip address 192.168.196.1/27
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 100 area 0.0.0.3
+  ip policy route-map customer_route-maps
+interface Vlan605
+  description APN Internal IP on CIN.CORE.1
+  no shutdown
+  vrf member WAPN
+  ip address 172.31.254.33/27
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 105 area 0.0.0.1
+interface Vlan607
+  description APN Internal IP on CIN.CORE.1
+  no shutdown
+  vrf member TMOHUB
+  ip address 172.31.252.33/27
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 106 area 0.0.0.1
+interface Vlan611
+  description CIN.CORE.1 and CIN.CORE.2 OSPF 105 Area 0
+  no shutdown
+  vrf member WAPN
+  ip address 172.31.254.17/30
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 20
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 105 area 0.0.0.0
+interface Vlan612
+  description CIN.CORE.1 and CIN.CORE.2 OSPF 105 Area 1
+  no shutdown
+  vrf member WAPN
+  ip address 172.31.254.21/30
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 5
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 105 area 0.0.0.1
+interface Vlan613
+  description CIN.CORE.1 and CIN.CORE.2 OSPF 106 Area 0
+  no shutdown
+  vrf member TMOHUB
+  ip address 172.31.252.17/30
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 20
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 106 area 0.0.0.0
+interface Vlan614
+  description CIN.CORE.1 and CIN.CORE.2 OSPF 106 Area 1
+  no shutdown
+  vrf member TMOHUB
+  ip address 172.31.252.21/30
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 5
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 106 area 0.0.0.1
+interface Vlan650
+  description SERVICE ROUTER VLAN
+  no shutdown
+  vrf member INTERNET
+  ip address 162.244.250.1/28
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 50 area 0.0.0.30
+interface Vlan655
+  description APN Internet IP on CIN.CORE.1 for WAPN
+  no shutdown
+  vrf member WINTERNET
+  ip address 207.189.176.1/28
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip ospf mtu-ignore
+  ip router ospf 55 area 0.0.0.10
+interface Vlan657
+  description CIN.CORE.1 and CIN.CORE.2 Connection
+  no shutdown
+  vrf member WINTERNET
+  ip address 207.189.176.225/30
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 20
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 55 area 0.0.0.10
+interface Vlan660
+  description Prod FW / NAT
+  no shutdown
+  vrf member INTERNET
+  no ip redirects
+  ip address 162.244.250.17/28
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 30
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 50 area 0.0.0.30
+interface Vlan670
+  description INTERNET CORE1
+  no shutdown
+  ip access-group Internet_Control_ACL in
+  vrf member INTERNET
+  ip address 162.244.250.49/29
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 2
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 50 area 0.0.0.30
+interface Vlan755
+  description APN Internet IP on CIN.CORE.1 for TMOHUB
+  no shutdown
+  vrf member WINTERNET
+  ip address 207.189.176.33/28
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip ospf mtu-ignore
+  ip router ospf 55 area 0.0.0.10
+interface Vlan757
+  description CIN.CORE.1 and CIN.CORE.2 Connection
+  no shutdown
+  ip access-group Winternet_Control_ACL in
+  vrf member WINTERNET
+  ip address 207.189.176.242/28
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 90
+  ip router ospf 55 area 0.0.0.10
+interface Vlan899
+  no shutdown
+  vrf member APP
+  ip address 172.30.102.1/24
+interface Vlan901
+  description nPhase DSN
+  no shutdown
+  vrf member nPhaseProd
+  no ip redirects
+  ip address 67.153.15.1/26
+  ip address 10.32.21.1/24 secondary
+  ip address 10.32.22.1/24 secondary
+  ip address 10.32.23.1/24 secondary
+  ip address 10.32.24.1/24 secondary
+  ip address 10.32.32.1/20 secondary
+  ip address 10.32.47.253/20 secondary
+  ip address 10.32.48.1/24 secondary
+  ip address 10.32.192.1/18 secondary
+  ip address 10.33.0.1/24 secondary
+  ip address 10.33.1.1/24 secondary
+  ip address 10.33.2.1/24 secondary
+  ip address 10.33.3.1/24 secondary
+  ip address 10.33.4.1/24 secondary
+  ip address 10.33.5.1/24 secondary
+  ip address 10.33.6.1/24 secondary
+  ip address 10.33.7.1/24 secondary
+  ip address 10.33.8.1/24 secondary
+  ip address 10.33.9.1/24 secondary
+  ip address 10.33.11.1/25 secondary
+  ip address 10.33.12.1/22 secondary
+  ip address 10.33.96.1/19 secondary
+  ip address 10.33.128.1/19 secondary
+  ip address 10.33.160.1/19 secondary
+  ip address 10.33.192.1/22 secondary
+  ip address 10.33.196.1/24 secondary
+  ip address 10.34.0.1/16 secondary
+  ip address 10.35.0.1/21 secondary
+  ip address 10.35.8.1/21 secondary
+  ip address 10.35.16.1/21 secondary
+  ip address 10.35.24.1/24 secondary
+  ip address 10.35.25.1/24 secondary
+  ip address 10.35.26.1/23 secondary
+  ip address 10.35.32.1/20 secondary
+  ip address 10.35.64.1/19 secondary
+  ip address 10.35.96.3/21 secondary
+  ip address 10.35.104.3/22 secondary
+  ip address 10.35.108.3/24 secondary
+  ip address 10.35.109.3/25 secondary
+  ip address 10.35.109.131/25 secondary
+  ip address 10.36.0.1/22 secondary
+  ip address 10.36.4.1/24 secondary
+  ip address 10.36.8.1/21 secondary
+  ip address 10.36.16.1/24 secondary
+  ip address 10.36.32.1/24 secondary
+  ip address 10.37.0.1/24 secondary
+  ip address 10.57.108.3/24 secondary
+  ip address 10.140.0.1/20 secondary
+  ip address 10.192.39.1/24 secondary
+  ip address 10.254.254.1/24 secondary
+  no ip ospf passive-interface
+  ip router ospf 15 area 0.0.0.0
+interface Vlan903
+  description nPhase App
+  no shutdown
+  vrf member nPhaseProd
+  no ip redirects
+  ip address 140.239.8.1/25
+  no ip ospf passive-interface
+  ip router ospf 15 area 0.0.0.0
+interface Vlan904
+  description nPhase LV-ATL-CIN Link
+  no shutdown
+  vrf member nPhaseProdDev
+  ip address 192.168.16.131/29
+interface Vlan905
+  no shutdown
+  vrf member nPhaseProdDev
+  ip address 192.168.16.137/30
+interface Vlan910
+  no shutdown
+  vrf member APP
+interface Vlan951
+  no shutdown
+  ip address 192.168.97.50/30
+interface Vlan952
+  no shutdown
+  vrf member APP
+  ip address 192.168.7.6/30
+interface Vlan953
+  no shutdown
+  vrf member APP
+  ip address 192.168.7.21/30
+interface Vlan955
+  description InterVRF Link - GlobalVRF
+  no shutdown
+  no ip redirects
+  ip address 192.168.97.9/30
+interface Vlan957
+  description Link To F5 Load Balancer_VRF_APP
+  no shutdown
+  vrf member APP
+  no ip redirects
+  ip address 192.168.45.9/29
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf message-digest-key 1 md5 3 a0dc4d3464dad536f7fc401831560749
+  ip ospf cost 10
+  ip ospf dead-interval 6
+  ip ospf hello-interval 3
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 101 area 0.0.0.0
+interface Vlan959
+  description nphase_internet
+  no shutdown
+  vrf member nPhaseInternet
+  ip address 67.153.59.219/29
+interface Vlan960
+  description nphase_internet_cin
+  no shutdown
+  vrf member nPhaseInternet
+  ip address 216.68.132.122/30
+  ip ospf dead-interval 30
+  no ip ospf passive-interface
+  ip ospf priority 100
+  ip router ospf 48 area 0.0.0.0
+interface Vlan961
+  description nphase_internet_atl
+  no shutdown
+  vrf member INTERNET
+  ip address 162.244.250.61/30
+  ip router ospf 50 area 0.0.0.30
+interface Vlan962
+  no shutdown
+  ip address 1.1.1.1/30
+interface Vlan995
+  no shutdown
+  vrf member APP
+  ip address 192.168.7.18/30
+interface Vlan997
+  description NLAN TEST to ATL-6500-1
+  no shutdown
+  no ip redirects
+interface Vlan998
+  no shutdown
+  ip address 192.168.98.2/24
+  hsrp version 2
+  hsrp 998 
+    preempt 
+    priority 120
+    ip 192.168.98.1
+interface Vlan999
+  no shutdown
+  ip address 192.168.99.2/24
+interface port-channel1
+  description ***vPC Peer Link***
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 6,10-11,15,99,102,109,119,172,200-204
+  switchport trunk allowed vlan add 207-209,250-253,255,300-301,303-310
+  switchport trunk allowed vlan add 312,314,316,318-319,350,401,404-406
+  switchport trunk allowed vlan add 410-411,500-503,509,550-551,560-564
+  switchport trunk allowed vlan add 570-574,611-614,657,660,670,757
+  switchport trunk allowed vlan add 850-851,899-903,905,910,959,994
+  switchport trunk allowed vlan add 997-998
+interface port-channel11
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 6,109,119,200-204,207-209,250-253
+  switchport trunk allowed vlan add 304,308-309,312,314,316,318-319
+  switchport trunk allowed vlan add 401,404-406,410-411,500-503,509
+  switchport trunk allowed vlan add 550-551,560-564,570-574,850-851
+  switchport trunk allowed vlan add 899-903,910,994,997-998
+interface port-channel12
+interface port-channel13
+  description 2GB VLAN 6 CONNECTION TO CIN.APN.LAN PO13
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 6
+
+
+interface Ethernet1/6
+  description Connection to ATL.CORE.1 e2/1 10GB Wavelength
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 99,101,109,119,200-204,207-209,250-253
+  switchport trunk allowed vlan add 255,300-301,303-304,306-309,312
+  switchport trunk allowed vlan add 314,316,318-319,401,404-406,410-411
+  switchport trunk allowed vlan add 500-503,509,550-551,560-564,570-574
+  switchport trunk allowed vlan add 850-851,900-903,962,998-999
+  spanning-tree bpdufilter disable
+  no shutdown
+
+interface Ethernet1/10
+interface Ethernet1/11
+interface Ethernet1/12
+interface Ethernet1/13
+interface Ethernet1/14
+interface Ethernet1/15
+interface Ethernet1/16
+interface Ethernet1/17
+interface Ethernet1/18
+interface Ethernet1/19
+interface Ethernet1/20
+interface Ethernet1/21
+interface Ethernet1/22
+interface Ethernet1/23
+interface Ethernet1/24
+interface Ethernet1/25
+interface Ethernet1/26
+interface Ethernet1/27
+interface Ethernet1/28
+interface Ethernet1/29
+interface Ethernet1/30
+interface Ethernet1/31
+interface Ethernet1/32
+interface Ethernet1/33
+interface Ethernet1/34
+interface Ethernet1/35
+interface Ethernet1/36
+interface Ethernet1/37
+interface Ethernet1/38
+interface Ethernet1/39
+interface Ethernet1/40
+interface Ethernet1/41
+interface Ethernet1/42
+interface Ethernet1/43
+interface Ethernet1/44
+interface Ethernet1/45
+interface Ethernet1/46
+interface Ethernet1/47
+interface Ethernet1/48
+interface Ethernet1/49
+  description ***CIN-APPCORE-2***
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 6,109,119,200-204,207-209,250-253
+  switchport trunk allowed vlan add 304,308-309,312,314,316,318-319
+  switchport trunk allowed vlan add 401,404-406,410-411,500-503,509
+  switchport trunk allowed vlan add 550-551,560-564,570-574,850-851
+  switchport trunk allowed vlan add 899-903,910,994,997-998
+  channel-group 11 mode active
+  no shutdown
+interface Ethernet1/50
+  description ***SWITCH INTERCONNECT***
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 6,10-11,15,99,102,109,119,172,200-204
+  switchport trunk allowed vlan add 207-209,250-253,255,300-301,303-310
+  switchport trunk allowed vlan add 312,314,316,318-319,350,401,404-406
+  switchport trunk allowed vlan add 410-411,500-503,509,550-551,560-564
+  switchport trunk allowed vlan add 570-574,611-614,657,660,670,757
+  switchport trunk allowed vlan add 850-851,899-903,905,910,959,994
+  switchport trunk allowed vlan add 997-998
+  channel-group 1 mode active
+  no shutdown
+
+
+
+interface Ethernet2/11
+  description WAPP-FW PRI g0/0
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 757
+  no shutdown
+interface Ethernet2/12
+  description WAPP-FW PRI g0/1
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 105-106,250-253,307
+  no shutdown
+
+
+interface Ethernet2/25
+  description CIN.FG.EDGE.1 p15
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 355
+  no shutdown
+interface Ethernet2/26
+  description CIN.FG.EDGE.2 p15
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 355
+  no shutdown
+
+
+interface Ethernet2/33
+  description 25MB NLAN 5P/KEFN/002263/LVLC
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 208,904
+  spanning-tree bpdufilter enable
+  speed 1000
+  duplex full
+  no shutdown
+interface Ethernet2/34
+  description Primary EPL link
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 100,105-106,311,962
+  spanning-tree bpdufilter enable
+  speed 1000
+  duplex full
+  load-interval counter 1 5
+  no shutdown
+
+interface Ethernet2/42
+  description CIN.WCUSTGW.1 GI0/0/0
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 605,607,655,755
+  no shutdown
+interface Ethernet2/43
+  description CIN.WCUSTGW.2 GI0/0/0
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 605,607,655,755
+  no shutdown
+
+interface Ethernet2/46
+  description CIN.WCAR.1 GI0/0/0
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 605,607,655,755
+  no shutdown
+interface Ethernet2/47
+  description CIN.WCAR.2 GI0/0/0
+  switchport
+  switchport mode trunk
+  switchport monitor
+  switchport trunk allowed vlan 605,607,655,755
+  speed 100
+  duplex full
+  no shutdown
+interface Ethernet2/48
+  description CIN SHARK
+  switchport
+  switchport monitor
+  no shutdown
+interface Ethernet2/49
+  description ***CIN-APPCORE-1***
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 6,109,119,200-204,207-209,250-253
+  switchport trunk allowed vlan add 304,308-309,312,314,316,318-319
+  switchport trunk allowed vlan add 401,404-406,410-411,500-503,509
+  switchport trunk allowed vlan add 550-551,560-564,570-574,850-851
+  switchport trunk allowed vlan add 899-903,910,994,997-998
+  channel-group 11 mode active
+  no shutdown
+interface Ethernet2/50
+  description ***SWITCH INTERCONNECT***
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 6,10-11,15,99,102,109,119,172,200-204
+  switchport trunk allowed vlan add 207-209,250-253,255,300-301,303-310
+  switchport trunk allowed vlan add 312,314,316,318-319,350,401,404-406
+  switchport trunk allowed vlan add 410-411,500-503,509,550-551,560-564
+  switchport trunk allowed vlan add 570-574,611-614,657,660,670,757
+  switchport trunk allowed vlan add 850-851,899-903,905,910,959,994
+  switchport trunk allowed vlan add 997-998
+  channel-group 1 mode active
+  no shutdown
+interface Ethernet2/51
+interface Ethernet2/52
+
+interface mgmt0
+  vrf member management
+  ip address 172.16.0.60/24
+cli alias name wr copy runn start
+terminal log-all
+line console
+line vty
+  session-limit 10
+  exec-timeout 60
+  logout-warning 60
+  access-class vty-acl-in in
+
+ip route 10.0.0.0/24 10.0.6.10
+ip route 10.0.0.0/24 mgmt0 172.16.0.10 vrf management
+ip route 10.0.1.0/24 10.0.255.4
+ip route 10.0.7.0/24 10.0.255.4
+ip route 10.0.10.0/24 10.0.6.10
+ip route 10.0.11.0/24 10.0.255.4
+ip route 10.0.12.0/24 10.0.6.10
+ip route 10.0.14.0/24 10.0.6.10
+ip route 10.0.15.0/24 10.0.6.10
+ip route 10.0.16.0/24 10.0.6.10
+ip route 10.0.112.0/24 10.0.255.4
+ip route 10.0.114.0/24 10.0.255.4
+ip route 10.0.115.0/24 10.0.255.4
+ip route 10.0.116.0/24 10.0.255.4
+ip route 10.128.2.122/32 10.0.6.10
+ip route 10.128.3.32/32 10.0.6.10
+ip route 10.128.6.89/32 10.0.6.10
+ip route 10.128.11.233/32 10.0.6.10
+ip route 68.170.31.234/32 10.0.6.10
+ip route 74.3.157.1/32 192.168.97.10
+ip route 140.239.8.30/32 192.168.97.49
+ip route 172.16.0.0/24 10.0.6.10
+ip route 172.16.1.0/24 10.0.255.4
+ip route 172.20.254.0/23 10.0.6.10
+ip route 192.168.5.64/26 192.168.97.10
+ip route 192.168.5.199/32 192.168.97.49
+ip route 192.168.5.200/32 192.168.97.10
+ip route 192.168.5.201/32 192.168.97.10
+ip route 192.168.5.210/32 192.168.97.10
+ip route 192.168.7.0/24 10.0.255.4
+ip route 192.168.165.193/32 192.168.16.131 vrf APP
+
+router ospf 105
+  vrf WAPN
+    router-id 172.31.254.1
+    redistribute static route-map OSPF105-STATIC-REDIS
+    log-adjacency-changes
+    passive-interface default
+router ospf 106
+  vrf TMOHUB
+    router-id 172.31.252.1
+    redistribute static route-map OSPF106-STATIC-REDIS
+    log-adjacency-changes
+    passive-interface default
+router ospf 50
+  vrf INTERNET
+    router-id 162.244.250.49
+    area 0.0.0.30 nssa
+    redistribute static route-map OSPF50-STATIC-REDIS
+    log-adjacency-changes
+    passive-interface default
+router ospf 52
+  vrf WINTERNET
+    router-id 207.189.176.1
+    area 0.0.0.10 nssa
+    redistribute static route-map OSPF55-STATIC-REDIS
+    log-adjacency-changes
+    passive-interface default
+
+router bgp 65512
+  router-id 192.168.16.17
+  log-neighbor-changes
+  address-family ipv4 unicast
+ 
+  vrf TMOHUB
+    address-family ipv4 unicast
+      redistribute static route-map BGP-TMOHUB-STATIC-REDIS
+    neighbor 172.31.252.3
+      remote-as 65512
+      address-family ipv4 unicast
+    neighbor 172.31.252.4
+      remote-as 65512
+      address-family ipv4 unicast
+    neighbor 172.31.252.18
+      remote-as 65512
+      address-family ipv4 unicast
+    neighbor 172.31.252.34
+      remote-as 65512
+      address-family ipv4 unicast
+        route-reflector-client
+    neighbor 172.31.252.35
+      remote-as 65512
+      address-family ipv4 unicast
+        route-reflector-client
+    neighbor 172.31.252.36
+      remote-as 65512
+      address-family ipv4 unicast
+        route-reflector-client
+    neighbor 172.31.252.37
+      remote-as 65512
+      address-family ipv4 unicast
+        route-reflector-client
+  vrf WAPN
+    address-family ipv4 unicast
+      redistribute static route-map BGP-WAPN-STATIC-REDIS
+    neighbor 172.31.254.3
+      remote-as 65512
+      address-family ipv4 unicast
+    neighbor 172.31.254.4
+      remote-as 65512
+      address-family ipv4 unicast
+    neighbor 172.31.254.18
+      remote-as 65512
+      address-family ipv4 unicast
+    neighbor 172.31.254.34
+      remote-as 65512
+      address-family ipv4 unicast
+        route-reflector-client
+    neighbor 172.31.254.35
+      remote-as 65512
+      address-family ipv4 unicast
+        route-reflector-client
+    neighbor 172.31.254.36
+      remote-as 65512
+      address-family ipv4 unicast
+        route-reflector-client
+    neighbor 172.31.254.37
+      remote-as 65512
+      address-family ipv4 unicast
+        route-reflector-client
+    neighbor 172.31.254.38
+      remote-as 65512
+      address-family ipv4 unicast
+        route-reflector-client
+ 
+monitor session 1 
+  source interface Ethernet1/2 both
+  source interface Ethernet1/3 both
+  source interface Ethernet2/1 rx
+  source interface Ethernet2/5 both
+  source interface Ethernet2/10 both
+  source interface Ethernet2/34 both
+  source interface Ethernet2/35 both
+  destination interface Ethernet2/48
+  no shut
+monitor session 2 
+  source interface Ethernet2/34 both
+  source vlan 308 rx
+monitor erspan origin ip-address 192.168.5.147 global
+xml server validate all
+logging logfile messges 6
+logging server 10.0.0.29 5 use-vrf management facility local6
+logging source-interface mgmt0
